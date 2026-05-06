@@ -1,0 +1,907 @@
+z<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bavya P — UI/UX Designer</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #f5f0e8;
+    --warm-white: #faf8f4;
+    --dark: #1a1612;
+    --brown: #6b4c3b;
+    --gold: #a79068;
+    --muted: #836b53;
+    --border: rgba(107,76,59,0.15);
+  }
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--dark);
+    overflow-x: hidden;
+  }
+
+  /* Noise texture overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 1000;
+    opacity: 0.4;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 4rem;
+    background: rgba(214, 189, 148, 0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    color: var(--dark);
+    text-decoration: none;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 2.5rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-size: 0.8rem;
+    font-weight: 400;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+
+  .nav-links a:hover { color: var(--dark); }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    padding: 8rem 4rem 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::after {
+    content: '';
+    position: absolute;
+    right: -10%;
+    top: 10%;
+    width: 50vw;
+    height: 80vh;
+    background: radial-gradient(ellipse, rgba(152, 130, 90, 0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-text { position: relative; z-index: 2; }
+
+  .hero-label {
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 500;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .hero-label::before {
+    content: '';
+    display: block;
+    width: 2rem;
+    height: 1px;
+    background: var(--gold);
+  }
+
+  h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(4rem, 7vw, 7rem);
+    font-weight: 300;
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    margin-bottom: 2rem;
+    color: var(--dark);
+  }
+
+  h1 em {
+    font-style: italic;
+    color: var(--brown);
+  }
+
+  .hero-desc {
+    font-size: 1rem;
+    line-height: 1.75;
+    color: var(--muted);
+    max-width: 440px;
+    margin-bottom: 3rem;
+    font-weight: 300;
+  }
+
+  .hero-cta {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+  }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--dark);
+    color: var(--cream);
+    padding: 0.9rem 2rem;
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    font-family: 'DM Sans', sans-serif;
+    transition: all 0.3s;
+    border: 1px solid var(--dark);
+  }
+
+  .btn-primary:hover {
+    background: transparent;
+    color: var(--dark);
+  }
+
+  .btn-outline {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: transparent;
+    color: var(--muted);
+    padding: 0.9rem 2rem;
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    font-family: 'DM Sans', sans-serif;
+    border: 1px solid var(--border);
+    transition: all 0.3s;
+  }
+
+  .btn-outline:hover {
+    border-color: var(--dark);
+    color: var(--dark);
+  }
+
+  /* Right side visual */
+  .hero-visual {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    z-index: 2;
+  }
+
+  .hero-card {
+    width: 320px;
+    padding: 3rem;
+    background: var(--warm-white);
+    border: 1px solid var(--border);
+    position: relative;
+  }
+
+  .hero-card::before {
+    content: '';
+    position: absolute;
+    top: -1px; left: 2rem;
+    width: 4rem;
+    height: 3px;
+    background: var(--gold);
+  }
+
+  .avatar-placeholder {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--gold), var(--brown));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2rem;
+    color: white;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+  }
+
+  .card-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 0.3rem;
+  }
+
+  .card-role {
+    font-size: 0.75rem;
+    color: var(--gold);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+  }
+
+  .card-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    border-top: 1px solid var(--border);
+    padding-top: 1.5rem;
+  }
+
+  .stat-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2rem;
+    font-weight: 300;
+    color: var(--dark);
+    line-height: 1;
+  }
+
+  .stat-label {
+    font-size: 0.7rem;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-top: 0.2rem;
+  }
+
+  /* ── SECTION SHARED ── */
+  section {
+    padding: 6rem 4rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    gap: 1.5rem;
+    margin-bottom: 4rem;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 1.5rem;
+  }
+
+  .section-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1rem;
+    color: var(--gold);
+    font-style: italic;
+  }
+
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 300;
+    letter-spacing: -0.01em;
+  }
+
+  /* ── ABOUT ── */
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: 5rem;
+    align-items: start;
+  }
+
+  .about-contact { }
+
+  .contact-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    padding: 1.2rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .contact-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .contact-value {
+    font-size: 0.9rem;
+    color: var(--dark);
+  }
+
+  .contact-value a {
+    color: var(--dark);
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+
+  .contact-value a:hover { color: var(--gold); }
+
+  .about-text p {
+    font-size: 1.05rem;
+    line-height: 1.85;
+    color: var(--muted);
+    font-weight: 300;
+    margin-bottom: 1.5rem;
+  }
+
+  /* ── SKILLS ── */
+  .skills-wrapper { background: var(--warm-white); margin: 0; padding: 6rem 0; }
+  .skills-inner { max-width: 1200px; margin: 0 auto; padding: 0 4rem; }
+
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+  }
+
+  .skill-item {
+    background: var(--warm-white);
+    padding: 2rem 2.5rem;
+    transition: background 0.3s;
+  }
+
+  .skill-item:hover { background: var(--cream); }
+
+  .skill-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgba(201,169,110,0.2), rgba(107,76,59,0.1));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+    font-size: 1rem;
+  }
+
+  .skill-name {
+    font-size: 0.95rem;
+    font-weight: 500;
+    margin-bottom: 0.3rem;
+  }
+
+  .skill-type {
+    font-size: 0.7rem;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  /* ── PROJECTS ── */
+  .projects-list { display: flex; flex-direction: column; gap: 0; }
+
+  .project-card {
+    display: grid;
+    grid-template-columns: 80px 1fr auto;
+    align-items: start;
+    gap: 2rem;
+    padding: 2.5rem 0;
+    border-bottom: 1px solid var(--border);
+    transition: all 0.3s;
+    cursor: default;
+  }
+
+  .project-card:first-child { border-top: 1px solid var(--border); }
+
+  .project-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 3rem;
+    font-weight: 300;
+    color: rgba(201,169,110,0.3);
+    line-height: 1;
+    padding-top: 0.2rem;
+  }
+
+  .project-info { }
+
+  .project-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.8rem;
+    font-weight: 400;
+    margin-bottom: 0.5rem;
+    transition: color 0.3s;
+  }
+
+  .project-desc {
+    font-size: 0.9rem;
+    color: var(--muted);
+    line-height: 1.7;
+    font-weight: 300;
+    max-width: 550px;
+  }
+
+  .project-tags {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .tag {
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.3rem 0.75rem;
+    background: rgba(201,169,110,0.12);
+    color: var(--brown);
+    border: 1px solid rgba(201,169,110,0.25);
+  }
+
+  .project-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    border: 1px solid var(--border);
+    padding: 0.6rem 1.2rem;
+    white-space: nowrap;
+    transition: all 0.3s;
+    margin-top: 0.3rem;
+  }
+
+  .project-link:hover {
+    background: var(--dark);
+    color: var(--cream);
+    border-color: var(--dark);
+  }
+
+  /* ── EDUCATION ── */
+  .edu-wrapper { background: var(--dark); margin: 0; padding: 6rem 0; }
+  .edu-inner { max-width: 1200px; margin: 0 auto; padding: 0 4rem; }
+
+  .edu-inner .section-header { border-bottom-color: rgba(255,255,255,0.1); }
+  .edu-inner .section-title { color: var(--cream); }
+  .edu-inner .section-num { color: var(--gold); }
+
+  .edu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+
+  .edu-card {
+    padding: 2.5rem;
+    border: 1px solid rgba(255,255,255,0.08);
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.3s;
+  }
+
+  .edu-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 3rem;
+    height: 2px;
+    background: var(--gold);
+  }
+
+  .edu-card:hover { border-color: rgba(201,169,110,0.3); }
+
+  .edu-year {
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1rem;
+  }
+
+  .edu-school {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.5rem;
+    font-weight: 400;
+    color: var(--cream);
+    margin-bottom: 0.4rem;
+    line-height: 1.2;
+  }
+
+  .edu-degree {
+    font-size: 0.85rem;
+    color: rgba(255,255,255,0.45);
+    margin-bottom: 1rem;
+    font-weight: 300;
+  }
+
+  .edu-gpa {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.75rem;
+    color: var(--gold);
+    letter-spacing: 0.05em;
+  }
+
+  /* ── RESPONSIBILITIES ── */
+  .resp-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
+
+  .resp-card {
+    padding: 2rem;
+    border: 1px solid var(--border);
+    background: var(--warm-white);
+    display: flex;
+    gap: 1.5rem;
+    align-items: flex-start;
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+
+  .resp-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.06);
+  }
+
+  .resp-number {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2rem;
+    font-weight: 300;
+    color: var(--gold);
+    opacity: 0.6;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+
+  .resp-title {
+    font-size: 0.95rem;
+    font-weight: 500;
+    margin-bottom: 0.3rem;
+    line-height: 1.3;
+  }
+
+  .resp-org {
+    font-size: 0.75rem;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    text-align: center;
+    padding: 4rem;
+    border-top: 1px solid var(--border);
+    background: var(--cream);
+  }
+
+  footer p {
+    font-size: 0.8rem;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+  }
+
+  footer .footer-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 3rem;
+    font-weight: 300;
+    color: var(--dark);
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.02em;
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .fade-up { animation: fadeUp 0.8s ease forwards; }
+  .fade-up:nth-child(2) { animation-delay: 0.15s; }
+  .fade-up:nth-child(3) { animation-delay: 0.3s; }
+  .fade-up:nth-child(4) { animation-delay: 0.45s; }
+
+  .hero-text > * {
+    opacity: 0;
+    animation: fadeUp 0.9s ease forwards;
+  }
+  .hero-text > *:nth-child(1) { animation-delay: 0.1s; }
+  .hero-text > *:nth-child(2) { animation-delay: 0.25s; }
+  .hero-text > *:nth-child(3) { animation-delay: 0.4s; }
+  .hero-text > *:nth-child(4) { animation-delay: 0.55s; }
+
+  .hero-visual {
+    opacity: 0;
+    animation: fadeUp 0.9s ease 0.5s forwards;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    nav { padding: 1.2rem 1.5rem; }
+    .nav-links { gap: 1.5rem; }
+    .hero { grid-template-columns: 1fr; padding: 7rem 1.5rem 3rem; gap: 3rem; }
+    .hero-visual { justify-content: flex-start; }
+    section { padding: 4rem 1.5rem; }
+    .about-grid { grid-template-columns: 1fr; gap: 3rem; }
+    .skills-inner { padding: 0 1.5rem; }
+    .skills-grid { grid-template-columns: repeat(2, 1fr); }
+    .edu-inner { padding: 0 1.5rem; }
+    .edu-grid { grid-template-columns: 1fr; }
+    .resp-grid { grid-template-columns: 1fr; }
+    .project-card { grid-template-columns: 50px 1fr; }
+    .project-link { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">Bavya </a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#education">Education</a></li>
+    <li><a href="#responsibilities">Activities</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-text">
+    <div class="hero-label">UI/UX Designer</div>
+    <h1>Bavya<br><em>Pandiyan</em></h1>
+    <p class="hero-desc">Crafting intuitive, human-centered digital experiences through research, wireframing, and purposeful visual design.</p>
+    <div class="hero-cta">
+      <a href="https://www.linkedin.com/in/bavya-pandiyan-" target="_blank" class="btn-primary">Connect on LinkedIn ↗</a>
+      <a href="#projects" class="btn-outline">View Work</a>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <div class="hero-card">
+      <div class="avatar-placeholder">BP</div>
+      <div class="card-name">Bavya </div>
+      <div class="card-role">UI/UX Designer</div>
+      <div class="card-stats">
+        <div>
+          <div class="stat-num">3</div>
+          <div class="stat-label">Projects</div>
+        </div>
+        <div>
+          <div class="stat-num">8.8</div>
+          <div class="stat-label">GPA</div>
+        </div>
+        <div>
+          <div class="stat-num">5</div>
+          <div class="stat-label">Tools</div>
+        </div>
+        <div>
+          <div class="stat-num">4</div>
+          <div class="stat-label">Roles</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-header">
+    <span class="section-num">01</span>
+    <h2 class="section-title">About Me</h2>
+  </div>
+  <div class="about-grid">
+    <div class="about-contact">
+      <div class="contact-item">
+        <span class="contact-label">Email</span>
+        <span class="contact-value"><a href="mailto:bavyapandiyan286@gmail.com">bavyapandiyan286@gmail.com</a></span>
+      </div>
+      <div class="contact-item">
+        <span class="contact-label">Phone</span>
+        <span class="contact-value">+91 9790423526</span>
+      </div>
+      <div class="contact-item">
+        <span class="contact-label">LinkedIn</span>
+        <span class="contact-value"><a href="https://www.linkedin.com/in/bavya-pandiyan-" target="_blank">linkedin.com/in/bavya-pandiyan-</a></span>
+      </div>
+      <div class="contact-item">
+        <span class="contact-label">Based In</span>
+        <span class="contact-value">Chennai, Tamil Nadu, India</span>
+      </div>
+      <div class="contact-item">
+        <span class="contact-label">Status</span>
+        <span class="contact-value" style="color: var(--gold);">Open to Internships</span>
+      </div>
+    </div>
+    <div class="about-text">
+      <p>Motivated and aspiring UI/UX Designer with hands-on experience in creating intuitive user interfaces and enhancing user experiences through academic projects and self-initiated work.</p>
+      <p>Familiar with the end-to-end design process — from user research and wireframing, to prototyping and final visual design. Quick to adapt to new design tools and committed to creating accessible, user-centric, visually appealing products.</p>
+      <p>I hold a strong interest in problem-solving and human-centered design principles, and I'm continuously growing as a designer in dynamic, collaborative environments.</p>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<div class="skills-wrapper" id="skills">
+  <div class="skills-inner">
+    <div class="section-header">
+      <span class="section-num">02</span>
+      <h2 class="section-title">Skills & Tools</h2>
+    </div>
+    <div class="skills-grid">
+      <div class="skill-item">
+        <div class="skill-icon">✦</div>
+        <div class="skill-name">Figma</div>
+        <div class="skill-type">UI Design & Prototyping</div>
+      </div>
+      <div class="skill-item">
+        <div class="skill-icon">◈</div>
+        <div class="skill-name">Adobe Photoshop</div>
+        <div class="skill-type">Visual Design</div>
+      </div>
+      <div class="skill-item">
+        <div class="skill-icon">◉</div>
+        <div class="skill-name">Adobe Animate</div>
+        <div class="skill-type">Motion & Animation</div>
+      </div>
+      <div class="skill-item">
+        <div class="skill-icon">⬡</div>
+        <div class="skill-name">Maya</div>
+        <div class="skill-type">3D Modelling</div>
+      </div>
+      <div class="skill-item">
+        <div class="skill-icon">▣</div>
+        <div class="skill-name">FCP</div>
+        <div class="skill-type">Production Tool</div>
+      </div>
+      <div class="skill-item">
+        <div class="skill-icon">❋</div>
+        <div class="skill-name">Soft Skills</div>
+        <div class="skill-type">Time Mgmt · Teamwork · Communication · Adaptability</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-header">
+    <span class="section-num">03</span>
+    <h2 class="section-title">Selected Projects</h2>
+  </div>
+  <div class="projects-list">
+
+    <div class="project-card">
+      <div class="project-num">01</div>
+      <div class="project-info">
+        <div class="project-name">RoadAid App</div>
+        <p class="project-desc">A mobile application that helps people during roadside emergencies. Uses live location to find nearby petrol bunks and mechanic shops quickly and safely. Designed with detailed wireframes and a prototype demonstrating complete user flow and functionality.</p>
+        <div class="project-tags">
+          <span class="tag">Mobile UI</span>
+          <span class="tag">Wireframing</span>
+          <span class="tag">Prototyping</span>
+          <span class="tag">Emergency Service</span>
+        </div>
+      </div>
+      <a class="project-link" href="https://www.figma.com/design/qAFezxI7l9m65XXPG0qKZJ/Brutal-UI-DashboardWireframes-Design--Community-?node-id=214-5&t=iU0GTvOgkt8qW4Hd-1" target="_blank">View on Figma ↗</a>
+    </div>
+
+    <div class="project-card">
+      <div class="project-num">02</div>
+      <div class="project-info">
+        <div class="project-name">Anything Finder App</div>
+        <p class="project-desc">A smart app that helps people locate items by scanning shelves or spaces using a phone camera and marking exact locations with a dot. Uses image recognition to remember item placement and retrieve it instantly on search. Includes full wireframe and prototype.</p>
+        <div class="project-tags">
+          <span class="tag">Image Recognition</span>
+          <span class="tag">Mobile UI</span>
+          <span class="tag">UX Research</span>
+          <span class="tag">Figma</span>
+        </div>
+      </div>
+      <a class="project-link" href="https://www.figma.com/design/gykGsKfDpcoZ7brP56XdfX/Untitled?node-id=0-1&t=c5I9SDLYqysg49LJ-1" target="_blank">View on Figma ↗</a>
+    </div>
+
+    <div class="project-card">
+      <div class="project-num">03</div>
+      <div class="project-info">
+        <div class="project-name">Coffee Ordering App</div>
+        <p class="project-desc">A coffee ordering app designed for simplicity and speed. Focused on easy navigation, clear menu options, and a smooth end-to-end user experience. Includes a fully realized prototype demonstrating the complete ordering journey.</p>
+        <div class="project-tags">
+          <span class="tag">App Design</span>
+          <span class="tag">UX Flow</span>
+          <span class="tag">Visual Design</span>
+          <span class="tag">Prototype</span>
+        </div>
+      </div>
+      <a class="project-link" href="https://www.figma.com/design/rhVhtvbhNB5mLsVanYHOsK/Juice---drinks-app?node-id=0-1&t=hKh5AqkD4hZZd26Q-1" target="_blank">View on Figma ↗</a>
+    </div>
+
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<div class="edu-wrapper" id="education">
+  <div class="edu-inner">
+    <div class="section-header">
+      <span class="section-num">04</span>
+      <h2 class="section-title">Education</h2>
+    </div>
+    <div class="edu-grid">
+      <div class="edu-card">
+        <div class="edu-year">2023 — Present</div>
+        <div class="edu-school">College of Engineering (CEG), Guindy</div>
+        <div class="edu-degree">M.Sc Electronic Media — 5 Year Integrated Programme</div>
+        <div class="edu-gpa">★ GPA: 8.8 / 10</div>
+      </div>
+      <div class="edu-card">
+        <div class="edu-year">2021 — 2022</div>
+        <div class="edu-school">Vetri Vidyalaya Higher Secondary School</div>
+        <div class="edu-degree">Higher Secondary Education</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- RESPONSIBILITIES -->
+<section id="responsibilities">
+  <div class="section-header">
+    <span class="section-num">05</span>
+    <h2 class="section-title">Positions of Responsibility</h2>
+  </div>
+  <div class="resp-grid">
+    <div class="resp-card">
+      <div class="resp-number">01</div>
+      <div>
+        <div class="resp-title">NSS Volunteer</div>
+        <div class="resp-org">National Service Scheme</div>
+      </div>
+    </div>
+    <div class="resp-card">
+      <div class="resp-number">02</div>
+      <div>
+        <div class="resp-title">Class Representative</div>
+        <div class="resp-org">College of Engineering, Guindy</div>
+      </div>
+    </div>
+    <div class="resp-card">
+      <div class="resp-number">03</div>
+      <div>
+        <div class="resp-title">SAAS Organiser</div>
+        <div class="resp-org">Student Association and Arts Society</div>
+      </div>
+    </div>
+    <div class="resp-card">
+      <div class="resp-number">04</div>
+      <div>
+        <div class="resp-title">Design Head</div>
+        <div class="resp-org">National Service Scheme (NSS)</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-name">Bavya P</div>
+  <p>UI/UX Designer · Chennai, India</p>
+  <p style="margin-top: 0.5rem;"><a href="mailto:bavyapandiyan286@gmail.com" style="color: var(--gold); text-decoration: none;">bavyapandiyan286@gmail.com</a></p>
+  <p style="margin-top: 2rem; opacity: 0.5;">© 2024 Bavya Pandiyan. All rights reserved.</p>
+</footer>
+
+</body>
+</html>
